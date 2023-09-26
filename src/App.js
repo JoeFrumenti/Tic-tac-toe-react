@@ -97,6 +97,11 @@ export default function Game()
     else
       description = 'Go to game start';
 
+    if(move == history.length - 1)
+      return(
+        <li key = {move}> You are on move {move}</li>
+      )
+
     return (
       <li key = {move}>
         <button onClick = {() => jumpTo(move)}>{description}</button>
