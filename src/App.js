@@ -87,9 +87,8 @@ export default function Game()
 {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length - 1];
   const [currentMove, setCurrentMove] = useState(0);
-
+  const currentSquares = history[currentMove];
   //squares returns each element, move return each index
   const moves = history.map((squares, move) => {
     let description;
