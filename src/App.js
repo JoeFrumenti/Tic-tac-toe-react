@@ -62,11 +62,13 @@ export default function Game()
   {
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
-      console.log("RUNNING jumpto");
+    console.log("RUNNING jumpto");
     setHistory(history.slice(0, currentMove + 1));
 
+    let newMoves = moves.slice(0,nextMove);
+    newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
     updateMoves(history);
-    setRenderedMoves(moves.slice(0,nextMove + 1));
+    setRenderedMoves(newMoves);
 
   }
   console.log("HISTORY LENGTH AFTER GAME: " + history.length);
