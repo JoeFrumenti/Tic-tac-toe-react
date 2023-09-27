@@ -7,9 +7,15 @@ export default function Game()
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
-
+  let moves = [];
+  //updateMoves();
+  const [renderedMoves, setRenderedMoves] = useState(moves);
   function handlePlay(nextSquares)
     {
+
+      console.log("handle play called");
+      updateMoves(setRenderedMoves);
+      setRenderedMoves(moves.slice(0));
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
       setHistory(nextHistory);
       setCurrentMove(nextHistory.length - 1);
@@ -17,51 +23,69 @@ export default function Game()
     }
 
   //squares returns each element, move return each index
-  const moves = history.map((squares, move) => {
-    let description;
-    if(move > 0)
-      description = 'Go to move # ' + move;
-    else
-      description = 'Go to game start';
+  //console.log("game runs now");
 
-    if(move === history.length - 1)
-      return(
-        <li key = {move}> You are on move {move}</li>
-      )
 
-    return (
-      <li key = {move}>
-        <button onClick = {() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-    });
+
+    function updateMoves()
+    {
+        moves = [];
+        //console.log("NEW LOOP")
+        for(let i = 0; i < history.length; i++)
+        {
+            //console.log(i, " ", history.length);
+            let description;
+            if(i > 0)
+              description = 'Go to move # ' + i;
+            else
+              description = "Go to game start";
+
+            if(i === history.length - 1)
+            {
+            //console.log("PUSHING FINAL MOVE " + i);
+              moves.push(
+                <li key = {i}> You are on move {i}</li>
+              );
+            }
+            else moves.push(
+              <li key = {i}>
+                <button onClick = {() => jumpTo(i)}>{description}</button>
+              </li>
+            );
+        };
+        console.log("MOVES IS SIZE " + moves.length);
+        console.log("HISTORY IS SIZE " + history.length);
+
+    }
+
+
+
+
   function jumpTo(nextMove)
   {
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
     setHistory(history.slice(0, currentMove + 1));
     console.log("called JumpTo");
+    updateMoves();
+    setRenderedMoves(moves);
 
   }
 
+    console.log("UPDATING");
     return(
            <div className = "game">
              <div className = "game-board">
                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
              </div>
              <div className = "game-info">
-               <ol>{moves}</ol>
+               <ol>{renderedMoves}</ol>
              </div>
            </div>
        );
 
 }
 
-function setMoves(history)
-{
-
-
-}
 
 function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
