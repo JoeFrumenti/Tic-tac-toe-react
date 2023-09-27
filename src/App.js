@@ -24,7 +24,7 @@ export default function Game()
     else
       description = 'Go to game start';
 
-    if(move == history.length - 1)
+    if(move === history.length - 1)
       return(
         <li key = {move}> You are on move {move}</li>
       )
@@ -39,6 +39,9 @@ export default function Game()
   {
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
+    setHistory(history.slice(0, currentMove + 1));
+    console.log("called JumpTo");
+
   }
 
     return(
@@ -51,6 +54,12 @@ export default function Game()
              </div>
            </div>
        );
+
+}
+
+function setMoves(history)
+{
+
 
 }
 
