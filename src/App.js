@@ -16,11 +16,11 @@ export default function Game()
 
       console.log("RUNNING handleplay");
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+      setCurrentMove(nextHistory.length - 1);
       setHistory(nextHistory);
       updateMoves(history);
-      setRenderedMoves(moves.slice(0));
-      setCurrentMove(nextHistory.length - 1);
       setXIsNext(!xIsNext);
+      setRenderedMoves(moves.slice(0));
     }
 
   //squares returns each element, move return each index
@@ -31,7 +31,7 @@ export default function Game()
     {
     console.log("RUNNING UPDATEMOVES")
         moves = [];
-        for(let i = 0; i < history.length + 1; i++)
+        for(let i = 0; i < currentMove+ 2; i++)
         {
             let description;
             if(i > 0)
@@ -39,7 +39,7 @@ export default function Game()
             else
               description = "Go to game start";
 
-            if(i === history.length)
+            if(i === currentMove + 1)
             {
               moves.push(
                 <li key = {i}> You are on move {i}</li>
@@ -51,7 +51,8 @@ export default function Game()
               </li>
             );
         };
-
+        setRenderedMoves(moves.slice(0, currentMove));
+        console.log("CURRENT MOVE AFTER UPDATEMOVES: " + currentMove);
     }
 
 
@@ -65,9 +66,11 @@ export default function Game()
     setHistory(history.slice(0, currentMove + 1));
 
     updateMoves(history);
-    setRenderedMoves(moves);
+    setRenderedMoves(moves.slice(0,currentMove));
 
   }
+  console.log("HISTORY LENGTH AFTER GAME: " + history.length);
+  console.log("CURRENT MOVE: " + currentMove);
 
     return(
            <div className = "game">
@@ -79,7 +82,6 @@ export default function Game()
              </div>
            </div>
        );
-
 }
 
 
