@@ -66,11 +66,12 @@ export default function Game()
     setHistory(history.slice(0, currentMove + 1));
 
     updateMoves(history);
-    setRenderedMoves(moves.slice(0,currentMove));
+    setRenderedMoves(moves.slice(0,nextMove + 1));
 
   }
   console.log("HISTORY LENGTH AFTER GAME: " + history.length);
   console.log("CURRENT MOVE: " + currentMove);
+  console.log("RMOVES LENGTH AFTER GAME: " + renderedMoves.length);
 
     return(
            <div className = "game">
