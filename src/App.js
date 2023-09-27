@@ -3,46 +3,44 @@ import { useState } from 'react';
 
 export default function Game()
 {
+      console.log("RUNNING GAME");
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
   let moves = [];
-  //updateMoves();
+
   const [renderedMoves, setRenderedMoves] = useState(moves);
   function handlePlay(nextSquares)
     {
 
-      console.log("handle play called");
-      updateMoves(setRenderedMoves);
-      setRenderedMoves(moves.slice(0));
+      console.log("RUNNING handleplay");
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
       setHistory(nextHistory);
+      updateMoves(history);
+      setRenderedMoves(moves.slice(0));
       setCurrentMove(nextHistory.length - 1);
       setXIsNext(!xIsNext);
     }
 
   //squares returns each element, move return each index
-  //console.log("game runs now");
 
 
 
-    function updateMoves()
+    function updateMoves(history)
     {
+    console.log("RUNNING UPDATEMOVES")
         moves = [];
-        //console.log("NEW LOOP")
-        for(let i = 0; i < history.length; i++)
+        for(let i = 0; i < history.length + 1; i++)
         {
-            //console.log(i, " ", history.length);
             let description;
             if(i > 0)
               description = 'Go to move # ' + i;
             else
               description = "Go to game start";
 
-            if(i === history.length - 1)
+            if(i === history.length)
             {
-            //console.log("PUSHING FINAL MOVE " + i);
               moves.push(
                 <li key = {i}> You are on move {i}</li>
               );
@@ -53,8 +51,6 @@ export default function Game()
               </li>
             );
         };
-        console.log("MOVES IS SIZE " + moves.length);
-        console.log("HISTORY IS SIZE " + history.length);
 
     }
 
@@ -65,14 +61,14 @@ export default function Game()
   {
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
+      console.log("RUNNING jumpto");
     setHistory(history.slice(0, currentMove + 1));
-    console.log("called JumpTo");
-    updateMoves();
+
+    updateMoves(history);
     setRenderedMoves(moves);
 
   }
 
-    console.log("UPDATING");
     return(
            <div className = "game">
              <div className = "game-board">
@@ -125,13 +121,6 @@ function Board({ xIsNext, squares, onPlay }) {
   return squareArray;
 
 }
-
-
-
-
-
-
-
 function Square({value, onSquareClick})
 {
     return <button className = "square"
