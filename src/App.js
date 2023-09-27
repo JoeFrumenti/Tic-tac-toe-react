@@ -8,7 +8,7 @@ export default function Game()
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
-  let moves = [];
+  let moves = [<li key = {0}> You are on move {0}</li>];
 
   const [renderedMoves, setRenderedMoves] = useState(moves);
   function handlePlay(nextSquares)
