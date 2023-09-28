@@ -1,9 +1,13 @@
 import React, { Component }  from 'react';
 import { useState } from 'react';
 
+let debug = true;
+
+
 export default function Game()
 {
-  console.log("RUNNING GAME");
+  if(debug)
+    console.log("RUNNING GAME");
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
@@ -11,17 +15,19 @@ export default function Game()
   let moves = [<li key = {0}> You are on move {0}</li>];
 
   const [orderReversed, setOrderReversed] = useState(false);
-
   const [renderedMoves, setRenderedMoves] = useState(moves);
+
   function handlePlay(nextSquares)
     {
-
+      if(debug)
+        console.log("RUNNING HANDLEPLAY");
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
       setCurrentMove(nextHistory.length - 1);
       setHistory(nextHistory);
       updateMoves(history);
       setXIsNext(!xIsNext);
       setRenderedMoves(moves.slice(0));
+
 
 
     }
@@ -32,6 +38,8 @@ export default function Game()
 
     function updateMoves(history)
     {
+        if(debug)
+          console.log("RUNNING UPDATEMOVES");
         moves = [];
         for(let i = 0; i < currentMove+ 2; i++)
         {
@@ -54,21 +62,37 @@ export default function Game()
             );
         };
         setRenderedMoves(moves.slice(0, currentMove));
+        if(orderReversed)
+            reverseOrder();
     }
 
   function toggleOrder()
+  {
+
+    if(debug)
+      console.log("RUNNING TOGGLEORDER");
+    setOrderReversed(!orderReversed);
+
+    reverseOrder();
+  }
+
+  function reverseOrder()
   {
     let reversed = [];
     for(let i = renderedMoves.length - 1; i >=0; i--)
     {
       reversed.push(renderedMoves[i]);
     }
+    moves = reversed;
     setRenderedMoves(reversed);
-  }
-
+    if(debug)
+      console.log("REVERSING ORDER");
+}
 
   function jumpTo(nextMove)
   {
+    if(debug)
+      console.log("RUNNING JUMPTO")
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
     setHistory(history.slice(0, currentMove + 1));
@@ -77,9 +101,13 @@ export default function Game()
     newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
     updateMoves(history);
     setRenderedMoves(newMoves);
+    if(orderReversed)
+        reverseOrder();
 
   }
 
+    if(debug)
+        console.log("    ");
 
     return(
            <div className = "game">
