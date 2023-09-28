@@ -173,7 +173,9 @@ function Board({ xIsNext, squares, onPlay, turn }) {
 function Square({value, onSquareClick})
 {
     return <button className = "square"
-            onClick = {onSquareClick}>
+            onClick = {onSquareClick}
+            style = {{color: 'red'}}>
+
             {value}
             </button>
 }
