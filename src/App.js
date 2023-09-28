@@ -156,12 +156,18 @@ function Board({ xIsNext, squares, onPlay, turn }) {
 
   const squareArray = [];
 
+  const coloredSpots = [0,1,2];
+
   squareArray.push(<div> {status} </div>);
   for(let i = 0; i < 3; i ++)
   {
     for(let j = 0; j < 3; j++)
     {
-      squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "purple"/>);
+      if(coloredSpots.includes(i+ 3*j))
+        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "purple"/>);
+      else
+        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "green"/>);
+
     }
     squareArray.push(<div className = "row"> </div>);
   }
