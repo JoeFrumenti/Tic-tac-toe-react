@@ -8,6 +8,7 @@ export default function Game()
 {
   if(debug)
     console.log("RUNNING GAME");
+
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
@@ -26,15 +27,16 @@ export default function Game()
       setHistory(nextHistory);
       updateMoves(history);
       setXIsNext(!xIsNext);
-      setRenderedMoves(moves.slice(0));
+      if(orderReversed)
+        setRenderedMoves(moves.slice(0).reverse());
+      else
+        setRenderedMoves(moves.slice(0));
 
 
 
     }
 
   //squares returns each element, move return each index
-
-
 
     function updateMoves(history)
     {
@@ -61,9 +63,11 @@ export default function Game()
               </li>
             );
         };
-        setRenderedMoves(moves.slice(0, currentMove));
-        if(orderReversed)
+
+          setRenderedMoves(moves.slice(0, currentMove));
+          if(orderReversed)
             reverseOrder();
+
     }
 
   function toggleOrder()
@@ -72,8 +76,8 @@ export default function Game()
     if(debug)
       console.log("RUNNING TOGGLEORDER");
     setOrderReversed(!orderReversed);
-
     reverseOrder();
+
   }
 
   function reverseOrder()
@@ -83,11 +87,11 @@ export default function Game()
     {
       reversed.push(renderedMoves[i]);
     }
-    moves = reversed;
     setRenderedMoves(reversed);
     if(debug)
       console.log("REVERSING ORDER");
-}
+  }
+
 
   function jumpTo(nextMove)
   {
@@ -101,13 +105,14 @@ export default function Game()
     newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
     updateMoves(history);
     setRenderedMoves(newMoves);
-    if(orderReversed)
-        reverseOrder();
+
 
   }
 
-    if(debug)
+    if(debug){
         console.log("    ");
+    }
+
 
     return(
            <div className = "game">
