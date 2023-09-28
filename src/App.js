@@ -117,7 +117,7 @@ export default function Game()
     return(
            <div className = "game">
              <div className = "game-board">
-               <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+               <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} turn = {currentMove}/>
              </div>
              <div className = "game-info">
                <ol>{renderedMoves}</ol>
@@ -130,11 +130,13 @@ export default function Game()
 }
 
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, turn }) {
   const winner = calculateWinner(squares);
   let status;
   if(winner)
     status = "Winner: " + winner;
+  else if(turn === 9)
+    status = "Draw!"
   else
     status = "Next player: " + (xIsNext ?  "X" : "O")
 ;
