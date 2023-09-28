@@ -161,7 +161,7 @@ function Board({ xIsNext, squares, onPlay, turn }) {
   {
     for(let j = 0; j < 3; j++)
     {
-      squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)}/>);
+      squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "purple"/>);
     }
     squareArray.push(<div className = "row"> </div>);
   }
@@ -170,10 +170,9 @@ function Board({ xIsNext, squares, onPlay, turn }) {
   return squareArray;
 
 }
-function Square({value, onSquareClick})
+function Square({value, onSquareClick, color})
 {
 
-    const color = "green";
     return <button className = "square"
             onClick = {onSquareClick}
             style = {{color: color}}>
