@@ -16,13 +16,14 @@ export default function Game()
   function handlePlay(nextSquares)
     {
 
-      console.log("RUNNING handleplay");
       const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
       setCurrentMove(nextHistory.length - 1);
       setHistory(nextHistory);
       updateMoves(history);
       setXIsNext(!xIsNext);
       setRenderedMoves(moves.slice(0));
+
+
     }
 
   //squares returns each element, move return each index
@@ -31,7 +32,6 @@ export default function Game()
 
     function updateMoves(history)
     {
-    console.log("RUNNING UPDATEMOVES")
         moves = [];
         for(let i = 0; i < currentMove+ 2; i++)
         {
@@ -54,13 +54,16 @@ export default function Game()
             );
         };
         setRenderedMoves(moves.slice(0, currentMove));
-        console.log("CURRENT MOVE AFTER UPDATEMOVES: " + currentMove);
     }
 
   function toggleOrder()
   {
-    setOrderReversed(!orderReversed);
-    console.log(orderReversed);
+    let reversed = [];
+    for(let i = renderedMoves.length - 1; i >=0; i--)
+    {
+      reversed.push(renderedMoves[i]);
+    }
+    setRenderedMoves(reversed);
   }
 
 
@@ -68,7 +71,6 @@ export default function Game()
   {
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
-    console.log("RUNNING jumpto");
     setHistory(history.slice(0, currentMove + 1));
 
     let newMoves = moves.slice(0,nextMove);
@@ -77,9 +79,7 @@ export default function Game()
     setRenderedMoves(newMoves);
 
   }
-  console.log("HISTORY LENGTH AFTER GAME: " + history.length);
-  console.log("CURRENT MOVE: " + currentMove);
-  console.log("RMOVES LENGTH AFTER GAME: " + renderedMoves.length);
+
 
     return(
            <div className = "game">
