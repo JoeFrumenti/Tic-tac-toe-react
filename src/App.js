@@ -131,7 +131,12 @@ export default function Game()
 
 
 function Board({ xIsNext, squares, onPlay, turn }) {
-  const winner = calculateWinner(squares);
+
+  const winResults = calculateWinner(squares);
+
+  const winner = winResults[0];
+  const coloredSpots = winResults[1];
+
   let status;
   if(winner)
     status = "Winner: " + winner;
@@ -142,7 +147,7 @@ function Board({ xIsNext, squares, onPlay, turn }) {
 ;
   function handleClick(i)
   {
-    if(calculateWinner(squares) || squares[i])
+    if(winner || squares[i])
         return;
     const nextSquares = squares.slice();
     if(xIsNext)
@@ -156,7 +161,6 @@ function Board({ xIsNext, squares, onPlay, turn }) {
 
   const squareArray = [];
 
-  const coloredSpots = [0,1,2];
 
   squareArray.push(<div> {status} </div>);
   for(let i = 0; i < 3; i ++)
@@ -201,8 +205,8 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return [squares[a], lines[i]];
     }
   }
-  return null;
+  return [null, []];
 }
