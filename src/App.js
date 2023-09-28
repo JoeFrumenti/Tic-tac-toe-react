@@ -6,17 +6,22 @@ let debug = true;
 
 export default function Game()
 {
-  if(debug)
-    console.log("RUNNING GAME");
 
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
+
   let moves = [<li key = {0}> You are on move {0}</li>];
 
   const [orderReversed, setOrderReversed] = useState(false);
   const [renderedMoves, setRenderedMoves] = useState(moves);
+
+  if(debug){
+    console.log("RUNNING GAME");
+    console.log("ORDER REVERSED IS " + orderReversed);
+    }
+
 
   function handlePlay(nextSquares)
     {
@@ -59,7 +64,7 @@ export default function Game()
             }
             else moves.push(
               <li key = {i}>
-                <button onClick = {() => jumpTo(i)}>{description}</button>
+                <button onClick = {() => jumpTo(i, orderReversed)}>{description}</button>
               </li>
             );
         };
@@ -93,18 +98,25 @@ export default function Game()
   }
 
 
-  function jumpTo(nextMove)
+  function jumpTo(nextMove, orderReverse)
   {
     if(debug)
       console.log("RUNNING JUMPTO")
     setCurrentMove(nextMove);
     setXIsNext(nextMove%2 === 0);
-    setHistory(history.slice(0, currentMove + 1));
+    //setHistory(history.slice(0, currentMove + 1));
 
     let newMoves = moves.slice(0,nextMove);
     newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
-    updateMoves(history);
-    setRenderedMoves(newMoves);
+    //updateMoves(history);
+    console.log(orderReverse);
+    if(orderReverse)
+    {
+      console.log("IT'S REVERSED!");
+      setRenderedMoves(newMoves.slice(0).reverse());
+    }
+    else
+      setRenderedMoves(newMoves);
 
 
   }
