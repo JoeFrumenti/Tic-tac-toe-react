@@ -3,12 +3,14 @@ import { useState } from 'react';
 
 export default function Game()
 {
-      console.log("RUNNING GAME");
+  console.log("RUNNING GAME");
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[currentMove];
   let moves = [<li key = {0}> You are on move {0}</li>];
+
+  const [orderReversed, setOrderReversed] = useState(false);
 
   const [renderedMoves, setRenderedMoves] = useState(moves);
   function handlePlay(nextSquares)
@@ -55,7 +57,11 @@ export default function Game()
         console.log("CURRENT MOVE AFTER UPDATEMOVES: " + currentMove);
     }
 
-
+  function toggleOrder()
+  {
+    setOrderReversed(!orderReversed);
+    console.log(orderReversed);
+  }
 
 
   function jumpTo(nextMove)
@@ -82,6 +88,9 @@ export default function Game()
              </div>
              <div className = "game-info">
                <ol>{renderedMoves}</ol>
+             </div>
+             <div className = "orderButton">
+               <button onClick = {toggleOrder}> Toggle Order </button>
              </div>
            </div>
        );
@@ -153,5 +162,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
-
