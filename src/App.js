@@ -32,10 +32,7 @@ export default function Game()
       setHistory(nextHistory);
       updateMoves(history);
       setXIsNext(!xIsNext);
-      if(orderReversed)
-        setRenderedMoves(moves.slice(0).reverse());
-      else
-        setRenderedMoves(moves.slice(0));
+      setRenderedMoves(moves.slice(0));
 
 
 
@@ -70,7 +67,7 @@ export default function Game()
         };
 
           setRenderedMoves(moves.slice(0, currentMove));
-          
+
 
     }
 
@@ -100,13 +97,8 @@ export default function Game()
     newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
     //updateMoves(history);
     console.log(doReverse);
-    if(orderReversed)
-    {
-      console.log("IT'S REVERSED!");
-      setRenderedMoves(newMoves.slice(0).reverse());
-    }
-    else
-      setRenderedMoves(newMoves);
+
+    setRenderedMoves(newMoves);
   }
 
     if(debug){
