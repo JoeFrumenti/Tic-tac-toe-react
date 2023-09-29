@@ -70,8 +70,7 @@ export default function Game()
         };
 
           setRenderedMoves(moves.slice(0, currentMove));
-          if(orderReversed)
-            reverseOrder();
+          
 
     }
 
@@ -81,23 +80,9 @@ export default function Game()
     if(debug)
       console.log("RUNNING TOGGLEORDER");
     setOrderReversed(!orderReversed);
-
-
-    reverseOrder();
   }
 
-  function reverseOrder()
-  {
-    let reversed = [];
 
-    for(let i = renderedMoves.length - 1; i >=0; i--)
-    {
-      reversed.push(renderedMoves[i]);
-    }
-    setRenderedMoves(reversed);
-    if(debug)
-      console.log("REVERSING ORDER");
-  }
 
 
   function jumpTo(nextMove, doReverse)
@@ -134,9 +119,14 @@ export default function Game()
              <div className = "game-board">
                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} turn = {currentMove}/>
              </div>
+             {/*
              <div className = "game-info">
                <ol>{renderedMoves}</ol>
+             </div>*/}
+             <div className = "game-info">
+               <PastMoves moves={renderedMoves} orderReversed = {orderReversed} />
              </div>
+
              <div className = "orderButton">
                <button onClick = {toggleOrder}> Toggle Order </button>
              </div>
@@ -144,8 +134,11 @@ export default function Game()
        );
 }
 
-function PastMoves({Moves, orderReversed}) {
-  
+function PastMoves({moves, orderReversed}) {
+  console.log("RUNNING PASTMOVES AND OR IS " + orderReversed);
+  if(orderReversed)
+    moves = moves.slice(0).reverse();
+  return(<ol> {moves} </ol>)
 }
 
 function Board({ xIsNext, squares, onPlay, turn }) {
