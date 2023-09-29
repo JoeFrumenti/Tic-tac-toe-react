@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 let debug = true;
 
@@ -75,19 +75,21 @@ export default function Game()
 
     }
 
+
   function toggleOrder()
   {
-
     if(debug)
       console.log("RUNNING TOGGLEORDER");
     setOrderReversed(!orderReversed);
-    reverseOrder();
 
+
+    reverseOrder();
   }
 
   function reverseOrder()
   {
     let reversed = [];
+
     for(let i = renderedMoves.length - 1; i >=0; i--)
     {
       reversed.push(renderedMoves[i]);
@@ -98,7 +100,7 @@ export default function Game()
   }
 
 
-  function jumpTo(nextMove, orderReverse)
+  function jumpTo(nextMove, doReverse)
   {
     if(debug)
       console.log("RUNNING JUMPTO")
@@ -107,18 +109,19 @@ export default function Game()
     //setHistory(history.slice(0, currentMove + 1));
 
     let newMoves = moves.slice(0,nextMove);
+
+    //handlePlay(moves[nextMove]);
+
     newMoves.push(<li key = {nextMove}> You are on move {nextMove}</li>)
     //updateMoves(history);
-    console.log(orderReverse);
-    if(orderReverse)
+    console.log(doReverse);
+    if(orderReversed)
     {
       console.log("IT'S REVERSED!");
       setRenderedMoves(newMoves.slice(0).reverse());
     }
     else
       setRenderedMoves(newMoves);
-
-
   }
 
     if(debug){
@@ -141,6 +144,9 @@ export default function Game()
        );
 }
 
+function PastMoves({Moves, orderReversed}) {
+  
+}
 
 function Board({ xIsNext, squares, onPlay, turn }) {
 
@@ -180,9 +186,9 @@ function Board({ xIsNext, squares, onPlay, turn }) {
     for(let j = 0; j < 3; j++)
     {
       if(coloredSpots.includes(i+ 3*j))
-        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "purple"/>);
+        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "red"/>);
       else
-        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "green"/>);
+        squareArray.push(<Square value = {squares[i + 3*j]} onSquareClick = {() => handleClick(i + 3*j)} color = "black"/>);
 
     }
     squareArray.push(<div className = "row"> </div>);
